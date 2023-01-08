@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:lean/main.dart';
+import 'package:lean/views/commun/SideBar.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String username;
+  const HomePage({super.key, required this.username});
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<HomePage> createState() {
+    MyApp.sideBarApp.setUsername=username;
+    return HomePageState();
+  }
 }
 
 class HomePageState extends State<HomePage> {
+
+  static String? u;
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +33,7 @@ class HomePageState extends State<HomePage> {
         .height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('Item 1'),
-            onTap: () {
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-            },
-          ),
-        ],
-      ),),
+      drawer:   MyApp.sideBarApp,
       appBar: AppBar(
         title: const Text("Home Page"),
       ),
@@ -82,14 +70,14 @@ class HomePageState extends State<HomePage> {
 
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 30),
+                            padding: const EdgeInsets.only(top: 30),
                             child: ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     onSend(context, formKey );
                                   }
                                 },
-                                child: Text('Send Post')
+                                child: const Text('Send Post')
                             ),
                           )
                         ]

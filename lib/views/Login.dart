@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<LoginPage> createState() => LoginPageState();
 }
 
-class HomePageState extends State<HomePage> {
+class LoginPageState extends State<LoginPage> {
+
+  final userNameController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,30 +27,8 @@ class HomePageState extends State<HomePage> {
         .height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('Item 1'),
-            onTap: () {
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-            },
-          ),
-        ],
-      ),),
       appBar: AppBar(
-        title: const Text("Home Page"),
+        title: const Text("Login Page"),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 10,
@@ -67,29 +48,49 @@ class HomePageState extends State<HomePage> {
                   child: Center(
                     child: Column(
                         children: [
-                          TextFormField(
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Write your Post',
-                                hintText: 'Post content'
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: TextFormField(
+                              controller: userNameController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'User name',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'username  empty';
+                                }
+                                return null;
+                              },
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 30),
+                            padding: const EdgeInsets.only(top: 15),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Password',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'password  empty';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
                             child: ElevatedButton(
+                              style:  ButtonStyle(
+                                minimumSize: MaterialStateProperty.all(const Size(200, 40)),
+                              ),
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    onSend(context, formKey );
+                                    context.go('/home',extra: userNameController.text);
                                   }
                                 },
-                                child: Text('Send Post')
+                                child: const Text('Login')
                             ),
                           )
                         ]
@@ -102,18 +103,5 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void onSend(BuildContext context,GlobalKey formKey) {
-    final snackBar = SnackBar(
-      content: const Text('Post Sent!'),
-      duration: const Duration(seconds: 2, milliseconds: 500),
-      action: SnackBarAction(
-        label: '',
-        onPressed: () {
-          // Some code to undo the change.
-        },
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 
 }
