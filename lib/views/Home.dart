@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lean/main.dart';
 import 'package:lean/views/commun/SideBar.dart';
+import 'package:lean/views/commun/Themes.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -72,6 +73,7 @@ class HomePageState extends State<HomePage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 30),
                             child: ElevatedButton(
+                              style: Themes.sampeleStyle,
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     onSend(context, formKey );
